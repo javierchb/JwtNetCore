@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@section Scripts {
+    <script>
+        window.addEventListener("load", function (event) {
+            console.log("all elements are load.");
+            let modalError = '@ViewBag.ModalError';
+            if (modalError != null && modalError == 1) {
+                // Modal declared in Views/Shared/_Layout.cshtml.
+                // Element id: ModalError.
+                var myModal = new bootstrap.Modal(document.getElementById('ModalError'), {
+                    keyboard: false
+                })
+                myModal.show();
+            }
+            let modalSuccess = '@ViewBag.ModalSuccess';
+            if (modalSuccess != null && modalSuccess == 1) {
+                // Modal declared in Views/Shared/_Layout.cshtml.
+                // Element id: ModalSuccess.
+                var myModal = new bootstrap.Modal(document.getElementById('ModalSuccess'), {
+                    keyboard: false
+                })
+                myModal.show();
+            }
+        });
+        const SendLogIn = () => {
+            let Email = document.getElementById("Email").value;
+            let Password = document.getElementById("Password").value;
+            if (Email != "" && Password != "") {
+                document.getElementById("FormLogIn").submit();
+            }
+            else {
+                // Alert Log In.
+                document.getElementById("AlertLogIn").innerHTML = '' +
+                    '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                    'Must type Email & Password.' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>';
+            }
+        }
+    </script>
+}

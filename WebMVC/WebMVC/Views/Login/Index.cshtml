@@ -1,0 +1,73 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+} 
+<div class="row justify-content-center mt-3">
+    <div class="col-12 col-sm-3 col-md-3 col-lg-3">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                User Log In
+            </div>
+            <div class="card-body">
+                <form asp-controller="Login" asp-action="UserLogIn" class="row" id="FormLogIn">
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12" id="AlertLogIn"></div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="Email">Email</label>
+                        <input name="Email" id="Email" class="form-control form-control-sm" type="text" />
+                    </div>
+                    <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                        <label for="Password">Password</label>
+                        <input name="Password" id="Password" class="form-control form-control-sm" type="password" />
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-sm btn-outline-primary" id="BtnLogIn" name="ButtonLogIn" onclick="SendLogIn();">Log in</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        window.addEventListener("load", function (event) {
+            console.log("all elements are load.");
+            let modalError = '@ViewBag.ModalError';
+            if (modalError != null && modalError == 1)
+            {
+                // Modal declared in Views/Shared/_Layout.cshtml.
+                // Element id: ModalError.
+                var myModal = new bootstrap.Modal(document.getElementById('ModalError'), {
+                    keyboard: false
+                })
+                myModal.show();
+            }
+            let modalSuccess = '@ViewBag.ModalSuccess';
+            if (modalSuccess != null && modalSuccess == 1)
+            {
+                // Modal declared in Views/Shared/_Layout.cshtml.
+                // Element id: ModalSuccess.
+                var myModal = new bootstrap.Modal(document.getElementById('ModalSuccess'), {
+                    keyboard: false
+                })
+                myModal.show();
+            }
+        });
+        const SendLogIn = () => {
+            let Email = document.getElementById("Email").value;
+            let Password = document.getElementById("Password").value;
+            if (Email != "" && Password != "") {
+                document.getElementById("FormLogIn").submit();
+            }
+            else {
+                // Alert Log In.                
+                document.getElementById("AlertLogIn").innerHTML = '' +
+                    '<div class="alert alert-warning alert-dismissible fade show" role="alert">' +
+                    'Must type Email & Password.' +
+                    '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+                    '</div>';
+            }            
+        }
+    </script>
+}

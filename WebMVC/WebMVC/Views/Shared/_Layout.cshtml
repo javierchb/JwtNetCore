@@ -1,0 +1,138 @@
+﻿@model WebMVC.UIModels.UIUser
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WebMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebMVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+    @if (Model.InSesion == 1)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebMVC</a>                       
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="IndexEmployees">Employees</a>
+                            </li>                                                        
+                        </ul>
+                        <div class="d-flex" role="search">
+                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                                        @(Model.Username)
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="btn dropdown-item text-dark">Perfil</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="btn dropdown-item text-dark" onclick="ClickLogOutBtn();">Log Out</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+        <!-- Modal Log Out -->
+        <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="ModalLogOut">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title">Log Out</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Confirm Log Out.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-dismiss="modal" onclick="LogOut();">Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>        
+        <!-- Form Log Out -->
+        <form asp-controller="Login" asp-action="LogOut" method="post" id="FormLogOut">
+            <input type="hidden" name="Username" value="@(Model.Username)"/>
+        </form>
+    }
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Standard Modal Error Alert -->
+    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="ModalError">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">@ViewData["TitleModalError"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @ViewData["MsgModalError"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Standard Modal Success Alert -->
+    <div class="modal fade" tabindex="-1" data-bs-backdrop="static" id="ModalSuccess">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title">@ViewData["TitleModalSuccess"]</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @ViewData["MsgModalSuccess"]
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2023 - WebMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script>
+        const ClickLogOutBtn = () => {
+            var myModal = new bootstrap.Modal(document.getElementById('ModalLogOut'), {
+                keyboard: false
+            })
+            myModal.show();
+        }
+        const LogOut = () => {            
+            document.getElementById("FormLogOut").submit();            
+        }
+    </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
